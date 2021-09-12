@@ -1,0 +1,13 @@
+<!doctype html>
+
+<h>Proposition Syntax Checker</h>
+<p>Please type your proposition below: </p>
+
+<form method="post" >
+    <input type="text" name="proposition">
+    <button type="submit" value="Submit">Submit</button>
+</form>
+
+{% if correctness %}
+    <p>Your proposition is: "{{proposition}}", and it is syntactically {{correctness}}. {{error}}</p>
+{% endif %}
