@@ -1,6 +1,8 @@
 <!doctype html>
 
-<h>Proposition Syntax Checker</h>
+<h1>Proposition Syntax Checker</h1>
+<p>Requirement: (1) All propositional variable must be exactly one character long. (2) Only accept 'and', 'or', 'not' operators. </p>
+
 <p>Please type your proposition below: </p>
 
 <form method="post" >
@@ -9,5 +11,5 @@
 </form>
 
 {% if correctness %}
-    <p>Your proposition is: "{{proposition}}", and it is syntactically {{correctness}}. {{error}}</p>
+    <p>Your proposition "{{proposition}}" is syntactically {{correctness}}. {{error}}</p>
 {% endif %}

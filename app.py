@@ -22,7 +22,7 @@ def checking_correctness(proposition):
     if len(proposition) == 0:
         return {'correctness': False, 'error': "Proposition is empty"}
 
-    # num of ( and ) must match
+    # Checking paranthesis.
     parsed_prop = proposition.replace('(', '( ').replace(')', ' )').split(' ')
     idx = 0
     while idx < len(parsed_prop):
@@ -57,7 +57,7 @@ def checking_correctness(proposition):
         if parsed_prop[idx] == ')' and idx != len(parsed_prop) - 1 and parsed_prop[idx + 1] not in ['and', 'or', 'not']:
             return {'correctness': False, 'error': "The right side of ')' cannot be a variable."}
 
-    #check operators
+    #make validity of operators
     parsed_prop = proposition.replace('(', ' ').replace(')', ' ').split(' ')
     for operator in parsed_prop:
         if len(operator) <= 1:
@@ -65,7 +65,7 @@ def checking_correctness(proposition):
         elif operator not in ['and', 'or', 'not']:
             return {'correctness': False, 'error': "Unknown operator \"" + operator + "\"."}
 
-    #check and/or operator
+    #check and/or operators
     parsed_prop = proposition.replace('(', '( ').replace(')', ' )').replace('and', ' * ').replace('or', ' * ').replace('  ', ' ').split(' ')
     idx = 0
     while idx < len(parsed_prop):
@@ -82,7 +82,7 @@ def checking_correctness(proposition):
             elif idx == len(parsed_prop) - 1:
                 return {'correctness': False, 'error': "'and'/'or' operator missing right operand."}
     
-    #check not operator
+    #check not operators
     parsed_prop = proposition.replace('(', '( ').replace(')', ' )').replace('not', '*').replace('  ', ' ').split(' ')
     idx = 0
     while idx < len(parsed_prop):
@@ -98,5 +98,19 @@ def checking_correctness(proposition):
                 return {'correctness': False, 'error': "Not operator cannot have 'and'/'or' as an operand."}
             elif idx > 0 and parsed_prop[idx - 1] != '(' and len(parsed_prop[idx - 1]) == 1:
                 return {'correctness': False, 'error': "Not operator cannot have an variable on its left side."}
+
+    #check correct use of variables
+    parsed_prop = proposition.replace('(', '( ').replace(')', ' )').replace('  ', ' ').split(' ')
+    idx = 0
+    while idx < len(parsed_prop):
+        if parsed_prop[idx] == '':
+            parsed_prop.pop(idx)
+        else:
+            idx += 1
+    print(parsed_prop)
+    for idx in range(0, len(parsed_prop) - 1):
+        if len(parsed_prop[idx]) == 1 and parsed_prop[idx].isalpha():
+            if len(parsed_prop[idx + 1]) == 1 and parsed_prop[idx + 1].isalpha():
+                return {'correctness': False, 'error': 'Two variables cannot be adjacent to each other.'}
 
     return {'correctness': True, 'error': 'Great Job.'}
